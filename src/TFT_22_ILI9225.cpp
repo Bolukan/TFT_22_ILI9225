@@ -125,7 +125,7 @@
         #define SPI_MAX_PIXELS_AT_ONCE  32
         #define HSPI_WRITE_PIXELS(c,l)   SPI_OBJECT.writePixels(c,l)
     #else
-        #define HSPI_WRITE_PIXELS(c,l)   for(uint32_t i=0; i<((l)/2); i++){ SPI_WRITE16(((uint16_t*)(c))[i]); }
+        #define HSPI_WRITE_PIXELS(c,l)   for(uint32_t i=0; i<((l)/2); i++){ HSPI_WRITE16(((uint16_t*)(c))[i]); }
     #endif
 #elif defined ( __STM32F1__ )
     #define HSPI_WRITE(b)            SPI_OBJECT.write(b)
@@ -1102,7 +1102,8 @@ void TFT_22_ILI9225::drawXBitmap(int16_t x, int16_t y, const uint8_t *bitmap, in
 void TFT_22_ILI9225::_drawBitmap(int16_t x, int16_t y, const uint8_t *bitmap, int16_t w, int16_t h, uint16_t color, uint16_t bg, bool transparent, bool progmem,bool Xbit) {
     bool noAutoInc = false;     // Flag set when transparent pixel was 'written'
     int16_t i, j, byteWidth = (w + 7) / 8;
-    int16_t wx0, wy0, wx1, wy1, wh, ww;  // Window-position and size
+    int16_t wx0, wy0, wx1, wy1, wh;  // Window-position and size
+	// int16_t ww;
     uint8_t byte, maskBit;
 	byte = 0;
     maskBit = Xbit? 0x01:0x80;
